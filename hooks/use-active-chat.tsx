@@ -117,8 +117,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
           (part) =>
             "state" in part &&
             part.state === "approval-responded" &&
-            "approval" in part &&
-            (part.approval as { approved?: boolean })?.approved === true
+            "approval" in part
         ) ?? false
       );
     },
@@ -128,7 +127,7 @@ export function ActiveChatProvider({ children }: { children: ReactNode }) {
       prepareSendMessagesRequest(request) {
         const lastMessage = request.messages.at(-1);
         const isToolApprovalContinuation =
-          lastMessage?.role !== "user" ||
+          lastMessage?.role !== "user" &&
           request.messages.some((msg) =>
             msg.parts?.some((part) => {
               const state = (part as { state?: string }).state;
